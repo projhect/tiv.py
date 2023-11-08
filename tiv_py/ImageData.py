@@ -15,7 +15,7 @@ class ImageData:
         self.height = height
         self.data = bytearray(width * height * 4)
         
-    def hex6(self, r: int, g: int, b: int) -> int:
+    def hex6(self, r: int, g: int, b: int) -> str:
         return f"{(1 << 24) | ((r & 255) << 16) | ((g & 255) << 8) | (b & 255):06x}"
     
     def dump(self, mode: str, html: bool):
@@ -48,8 +48,9 @@ class ImageData:
                 x = 0
                 while x < self.width - 3:
                     block_char.load(self.data, pos, self.width * 4)
-                    fg = Ansi.color(Ansi.FG | mode, block_char.fg_color[0], block_char.fg_color[1], block_char.fg_color[2])
-                    bg = Ansi.color(Ansi.BG | mode, block_char.bg_color[0], block_char.bg_color[1], block_char.bg_color[2])
+                    mode_mask = 4 if mode == '256' else 8
+                    fg = Ansi.color(Ansi.FG | mode_mask, block_char.fg_color[0], block_char.fg_color[1], block_char.fg_color[2])
+                    bg = Ansi.color(Ansi.BG | mode_mask, block_char.bg_color[0], block_char.bg_color[1], block_char.bg_color[2])
                     if fg != last_fg:
                         output.append(fg)
                         last_fg = fg

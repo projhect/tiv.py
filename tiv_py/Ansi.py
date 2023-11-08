@@ -36,7 +36,7 @@ class Ansi:
         return max(min(value, max_val), min_val)
 
     @staticmethod
-    def color(flags: int, r: int, g: int, b: int) -> int:
+    def color(flags: int, r: int, g: int, b: int) -> str:
         """
         Produces an ANSI sequence for setting foreground or background color in 256-color mode or true color (24-bit) mode.
         """
